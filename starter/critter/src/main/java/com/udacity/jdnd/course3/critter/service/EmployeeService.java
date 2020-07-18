@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
@@ -36,7 +37,9 @@ public class EmployeeService {
     }
 
     public List<Employee> getEmployeeByDetails(LocalDate date, Set<EmployeeSkill> skills){
-        return employeeRepository.findEmployeesByDetails(date,skills);
+        List<Employee> employees = employeeRepository.findAllBySkillsIn(skills);
+        return employees.stream().filter(employee -> employee.getSkills().containsAll(skills))
+                .collect(Collectors.toList());
     }
 
 }
