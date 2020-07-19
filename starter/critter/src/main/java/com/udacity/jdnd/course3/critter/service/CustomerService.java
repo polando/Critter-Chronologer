@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -31,6 +32,11 @@ public class CustomerService {
     public Customer getCustomerByPet(Long petId){
         Pet pet = petRepository.findById(petId).orElseThrow(EntityNotFoundException::new);
         return pet.getOwner();
+    }
+
+    public Customer getCustomerById(Long customerId){
+        return customerRepository.findById(customerId)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
 
