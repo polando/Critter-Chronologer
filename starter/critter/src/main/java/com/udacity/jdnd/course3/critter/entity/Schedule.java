@@ -14,14 +14,14 @@ public class Schedule {
     @GeneratedValue
     private long id;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "schedule_employee",
             joinColumns = @JoinColumn(name = "schedule_id"),
             inverseJoinColumns = @JoinColumn(name = "employee_id"))
     private List<Employee> employees;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "schedule_pet",
             joinColumns = @JoinColumn(name = "schedule_id"),

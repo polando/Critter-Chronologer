@@ -3,9 +3,11 @@ package com.udacity.jdnd.course3.critter.user;
 import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.entity.Pet;
+import com.udacity.jdnd.course3.critter.entity.Schedule;
 import com.udacity.jdnd.course3.critter.service.CustomerService;
 import com.udacity.jdnd.course3.critter.service.EmployeeService;
 import com.udacity.jdnd.course3.critter.service.PetService;
+import com.udacity.jdnd.course3.critter.service.ScheduleService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +37,9 @@ public class UserController {
 
     @Autowired
     PetService petService;
+
+    @Autowired
+    ScheduleService scheduleService;
 
 
     @PostMapping("/customer")
@@ -83,28 +88,44 @@ public class UserController {
     CustomerDTO convertCustomerToCustomerDTO(Customer customer){
         CustomerDTO customerDTO = new CustomerDTO();
         BeanUtils.copyProperties(customer,customerDTO);
-        customerDTO.setPetIds(customer.getPets().stream().map(Pet::getId).collect(Collectors.toList()));
+        if(customer.getPets() != null){
+        customerDTO.setPetIds(customer.getPets().stream()
+                .map(Pet::getId)
+                .collect(Collectors.toList()));}
         return customerDTO;
     }
 
     Customer convertCustomerDTOToCustomer(CustomerDTO customerDTO){
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerDTO,customer);
+        if(customerDTO.getPetIds() != null){
         customer.setPets(customerDTO.getPetIds().stream()
                 .map(id->petService.findPetById(id))
                 .collect(Collectors.toList()));
+        }
         return customer;
     }
 
     EmployeeDTO convertEmployeeToEmployeeDTO(Employee employee){
         EmployeeDTO employeeDTO = new EmployeeDTO();
         BeanUtils.copyProperties(employee,employeeDTO);
+        if(employee.getSchedules() != null){
+            employeeDTO.setScheduleIds(employee.getSchedules().stream()
+                    .map(Schedule::getId)
+                    .collect(Collectors.toList())
+            );
+        }
         return employeeDTO;
     }
 
     Employee convertEmployeeDTOTOEmployee(EmployeeDTO employeeDTO){
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO,employee);
+        if(employeeDTO.getScheduleIds() != null){
+            employee.setSchedules(employeeDTO.getScheduleIds().stream()
+                    .map(id->scheduleService.getScheduleById(id))
+                    .collect(Collectors.toList()));
+        }
         return employee;
     }
 }

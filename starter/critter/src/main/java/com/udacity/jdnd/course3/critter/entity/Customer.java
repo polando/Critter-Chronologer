@@ -1,9 +1,6 @@
 package com.udacity.jdnd.course3.critter.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -12,7 +9,7 @@ public class Customer extends Person {
     private String phoneNumber;
     private String notes;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner",cascade = CascadeType.ALL)
     private List<Pet> pets;
 
     public String getPhoneNumber() {

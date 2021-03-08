@@ -15,7 +15,7 @@ public class Pet {
 
         private PetType type;
 
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn
         private Customer owner;
 

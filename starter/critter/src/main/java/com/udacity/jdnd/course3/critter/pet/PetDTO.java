@@ -1,6 +1,9 @@
 package com.udacity.jdnd.course3.critter.pet;
 
+import com.udacity.jdnd.course3.critter.entity.Schedule;
+
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Represents the form that pet request and response data takes. Does not map
@@ -61,4 +64,5 @@ public class PetDTO {
     public void setId(long id) {
         this.id = id;
     }
+
 }
